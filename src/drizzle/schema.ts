@@ -18,7 +18,7 @@ export const Courses = pgTable("courses",{
 
 export const TierEnum = pgEnum("tier", Object.keys(subscriptionTiers) as [TierNames])
 
-export const UberSubscriptionTable = pgTable("uber_subscriptions", {
+export const UserSubscriptionTable = pgTable("user_subscriptions", {
     id: uuid("id").primaryKey().defaultRandom(),
     clerkUserID: text("clerk_user_id").notNull().unique(),
     stripeSubscriptionItemID: text("stripe_subscription_item_id"),
