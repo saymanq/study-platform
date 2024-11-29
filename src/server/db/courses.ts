@@ -9,6 +9,12 @@ export function getCourses(userId: string, { limit }: { limit?: number}) {
     })
 }
 
+export function getCourse(courseId: string, userId: string) {
+    return db.query.Courses.findFirst({
+        where: (({ id, clerkUserID }, {eq, and}) => and(eq(id, courseId), eq(clerkUserID, userId))),
+    })
+}
+
 export async function addCourse(data: typeof Courses.$inferInsert) {
     const [newCourse] = await db.insert(Courses).values(data).returning({ id: Courses.id})
     return newCourse
