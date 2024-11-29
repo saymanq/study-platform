@@ -1,12 +1,14 @@
 import { getCourse } from "@/server/db/courses";
 import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
+import { NoFiles } from "./_components/NoFiles";
 
-export default async function CourseHome({
-    params,
-} : {
-    params: { courseId: string }
-}) {
+export default async function CourseHome(
+    props: {
+        params: Promise<{ courseId: string }>
+    }
+) {
+    const params = await props.params;
     const { userId, redirectToSignIn } = await auth();
     if (userId == null) return redirectToSignIn();
 
@@ -16,9 +18,11 @@ export default async function CourseHome({
 
     return (
         <div>
+            <div>
+                <NoFiles />
+            </div>
             <h1>{course.c_abbrev} {course.c_num}</h1>
             <p>{course.name}</p>
         </div>
     )
-
 }
