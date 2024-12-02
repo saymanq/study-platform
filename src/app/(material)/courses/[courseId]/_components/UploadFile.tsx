@@ -5,7 +5,11 @@ import { useState, useCallback } from "react"
 import { toast } from "@/hooks/use-toast"
 import { dataProcessing } from "@/server/actions/dataProcessing"
 
-export function UploadFile() {
+type UploadFileProps = {
+    courseId: string
+}
+
+export function UploadFile({ courseId }: UploadFileProps) {
     const [isDragging, setIsDragging] = useState(false)
     const [isUploading, setIsUploading] = useState(false)
 
@@ -46,7 +50,7 @@ export function UploadFile() {
 
         try {
             setIsUploading(true)
-            await dataProcessing(file)
+            await dataProcessing(file, courseId)
             toast({
                 title: "Success",
                 description: "File uploaded successfully"

@@ -19,7 +19,7 @@ export default async function CourseHome(
     return (
         <div>
             <div>
-                <NoFiles />
+                <NoFiles courseId={params.courseId}/>
             </div>
             <h1>{course.c_abbrev} {course.c_num}</h1>
             <p>{course.name}</p>

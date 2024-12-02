@@ -1,7 +1,10 @@
 import { UploadFile } from "./UploadFile";
 
+type NoFilesProps = {
+    courseId: string
+  }
 
-export function NoFiles() {
+export function NoFiles({ courseId }: NoFilesProps) {
     
     return (
         <div className="mt-32 text-center text-balance">
@@ -9,7 +12,7 @@ export function NoFiles() {
             <p className="mb-4">
                 Get started with Cognify by adding a file
             </p>
-            <UploadFile />
+            <UploadFile courseId={courseId}/>
         </div>
     )
 }

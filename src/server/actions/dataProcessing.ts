@@ -44,13 +44,13 @@ async function addFileToR2(file: File, filename: string) {
     }
 }
 
-export async function dataProcessing(file: File) {
+export async function dataProcessing(file: File, courseId: string) {
     const { userId } = await auth()
     
     if (!userId) {
         throw new Error("User not authenticated")
     }
 
-    const R2Name = `${userId}/${file.name}`
+    const R2Name = `${userId}/bigfiles/${courseId}/${file.name}`
     await addFileToR2(file, R2Name)
 }
