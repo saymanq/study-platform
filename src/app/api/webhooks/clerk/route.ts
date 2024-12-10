@@ -46,6 +46,7 @@ export async function POST(req: Request) {
     case 'user.created':
       await createUserSubscription({ 
         clerkUserID: evt.data.id,
+        email: evt.data.email_addresses[0].email_address,
         tier: "Free"
        })
       break

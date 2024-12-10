@@ -21,6 +21,7 @@ export const TierEnum = pgEnum("tier", Object.keys(subscriptionTiers) as [TierNa
 export const UserSubscriptionTable = pgTable("user_subscriptions", {
     id: uuid("id").primaryKey().defaultRandom(),
     clerkUserID: text("clerk_user_id").notNull().unique(),
+    email: text("email").notNull(),
     stripeSubscriptionItemID: text("stripe_subscription_item_id"),
     stripeSubscriptionID: text("stripe_subscription_id"),
     stripeCustomerID: text("stripe_customer_id"),
@@ -32,3 +33,16 @@ export const UserSubscriptionTable = pgTable("user_subscriptions", {
     stripeCustomerIdIndex: index("user_subscriptions.stripe_customer_id_index").on(table.stripeCustomerID),
 })
 )
+
+export const CourseFiles = pgTable("course_files", {
+    id: uuid("id").primaryKey().defaultRandom(),
+    clerkUserID: text("clerk_user_id").notNull(),
+    courseId: uuid("course_id").notNull().references(() => Courses.id),
+    fileName: text("file_name").notNull(),
+    R2Name: text("r2_name").notNull(),
+    createdAt,
+    updatedAt
+}, table => ({
+    clerkUserIdIndex: index("course_files.clerk_user_id_index").on(table.clerkUserID),
+    courseIdIndex: index("course_files.course_id_index").on(table.courseId),
+}))

@@ -1,0 +1,1 @@
+ALTER TABLE "course_files" ADD COLUMN "r2_name" text NOT NULL;

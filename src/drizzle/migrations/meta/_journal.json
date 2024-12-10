@@ -1,19 +1,26 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
+  "version": "5",
+  "dialect": "pg",
   "entries": [
     {
       "idx": 0,
       "version": "7",
-      "when": 1731658997001,
-      "tag": "0000_minor_black_tarantula",
+      "when": 1733781908659,
+      "tag": "0000_yummy_devos",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1731660862606,
-      "tag": "0001_glorious_barracuda",
+      "when": 1733783493900,
+      "tag": "0001_fuzzy_ulik",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1733789187810,
+      "tag": "0002_heavy_meteorite",
       "breakpoints": true
     }
   ]
