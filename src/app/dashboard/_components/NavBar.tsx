@@ -1,4 +1,5 @@
 import { BrandLogo } from "@/components/BrandLogo";
+import { Semester } from "@/components/Semester";
 import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
@@ -10,6 +11,7 @@ export function NavBar() {
                     <BrandLogo />
                 </Link>
                 <Link href="/subscription">Subscription</Link>
+                <Semester />
                 <UserButton />
             </nav>
         </header>

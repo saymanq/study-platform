@@ -12,3 +12,12 @@ export function deleteUser(clerkUserID: string) {
             .where(eq(Courses.clerkUserID, clerkUserID)),
         ])
 }
+
+export function getUserCreatedAtDB(clerkUserID: string) {
+    // Get user creation date
+    return db
+        .select({ createdAt: UserSubscriptionTable.createdAt })
+        .from(UserSubscriptionTable)
+        .where(eq(UserSubscriptionTable.clerkUserID, clerkUserID))
+        .limit(1);
+}

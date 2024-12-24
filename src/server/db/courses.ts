@@ -1,9 +1,18 @@
 import { db } from "@/drizzle/db";
 import { Courses } from "@/drizzle/schema";
 
-export function getCourses(userId: string, { limit }: { limit?: number}) {
+export function getCourses(userId: string, { limit, semester }: { limit?: number, semester: string}) {
+    const formattedSemester = semester.replace(/\s+/g, '');
+    console.log("Looking for: ", formattedSemester);
+    const options = { cache : 'no-store' };
+
     return db.query.Courses.findMany({
-        where: (({ clerkUserID }, {eq}) => eq(clerkUserID, userId)),
+        where: (({ clerkUserID, semester }, {eq, and}) => 
+            and(
+                eq(clerkUserID, userId),
+                eq(semester, formattedSemester)
+            )
+        ),
         orderBy: (({c_abbrev}, {asc}) => asc(c_abbrev)),
         limit,
     })

@@ -2,7 +2,6 @@ import { subscriptionTiers, TierNames } from "@/data/subscriptionTiers";
 import { pgTable, text, uuid, integer, timestamp, index, pgEnum } from "drizzle-orm/pg-core";
 
 const createdAt = timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
-
 const updatedAt = timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date())
 
 export const Courses = pgTable("courses",{
@@ -11,12 +10,23 @@ export const Courses = pgTable("courses",{
     c_abbrev: text("c_abbrev").notNull(),
     c_num: integer("c_num").notNull(),
     name: text("name").notNull(),
+    semester: text("semester").notNull(),
     createdAt,
 }, table => ({
     clerkUserIdIndex: index("products.clerk_user_id_index").on(table.clerkUserID),
 }))
 
 export const TierEnum = pgEnum("tier", Object.keys(subscriptionTiers) as [TierNames])
+export const FileStatusEnum = pgEnum("file_status", ["Private", "Public"])
+export const FileTypeEnum = pgEnum("file_type", [
+    "Syllabus",
+    "LectureSlides",
+    "TextBook",
+    "Notes",
+    "AssignmentQ",
+    "AssignmentS",
+    ""
+])
 
 export const UserSubscriptionTable = pgTable("user_subscriptions", {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -40,6 +50,9 @@ export const CourseFiles = pgTable("course_files", {
     courseId: uuid("course_id").notNull().references(() => Courses.id),
     fileName: text("file_name").notNull(),
     R2Name: text("r2_name").notNull(),
+    semester: text("semester").notNull(),
+    status: FileStatusEnum("status").notNull().default("Private"),
+    type: FileTypeEnum("type").notNull(),
     createdAt,
     updatedAt
 }, table => ({
