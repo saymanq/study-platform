@@ -3,8 +3,6 @@ import { Courses } from "@/drizzle/schema";
 
 export function getCourses(userId: string, { limit, semester }: { limit?: number, semester: string}) {
     const formattedSemester = semester.replace(/\s+/g, '');
-    console.log("Looking for: ", formattedSemester);
-    const options = { cache : 'no-store' };
 
     return db.query.Courses.findMany({
         where: (({ clerkUserID, semester }, {eq, and}) => 

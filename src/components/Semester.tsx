@@ -1,38 +1,41 @@
 'use client';
-import { useSemesterStore } from "@/store/semesterStore";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { semesters } from "@/data/semesters";
 import { getUserCreatedAt } from "@/server/actions/users";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { updateSemester } from "@/server/actions/semester";
+import { storeSemester } from "@/server/actions/semester";
 
 
 
 
-export function Semester() {
+export function Semester({ initialSemester }: { initialSemester: string }) {
     //const currentSemester = getCurrentSemester();
     const router = useRouter();
-    const { currentSemester, setCurrentSemester } = useSemesterStore();
-    // const [userCreatedAt, setUserCreatedAt] = useState<Date | null>(null);
-    const userCreatedAt = new Date("2024-07-01");
+    //const { currentSemester, setCurrentSemester } = useSemesterStore();
+    const [userCreatedAt, setUserCreatedAt] = useState<Date | null>(null);
+    //const userCreatedAt = new Date("2024-07-01");
     const [ mounted, setMounted ] = useState(false);
+    const [value, setValue] = useState(initialSemester);
     
     useEffect(() => {
       setMounted(true);
     }, []);
 
-    // useEffect(() => {
-    //     getUserCreatedAt().then(user => {
-    //         if (user[0]) setUserCreatedAt(user[0].createdAt);
-    //     });
-    // }, []);
+    useEffect(() => {
+        getUserCreatedAt().then(user => {
+            if (user[0]) setUserCreatedAt(user[0].createdAt);
+        });
+    }, []);
 
     const handleSemesterChange = async (value: string) => {
-      setCurrentSemester(value);
-      await updateSemester(value);
+      //setCurrentSemester(value);
+      setValue(value);
+      await storeSemester(value);
+      //await Promise.resolve();
+      //router.push('/dashboard');
+      //console.log(currentSemester);
       router.refresh();
-      router.push('/dashboard');
     };
 
     if (!mounted) return null;
@@ -41,15 +44,15 @@ export function Semester() {
         <div>
             <Select onValueChange={handleSemesterChange}>
               <SelectTrigger className="w-[130px]">
-                <SelectValue placeholder={currentSemester} />
+                <SelectValue placeholder={value} >{value}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {semesters.semesters
                   .filter(semester => {
-                    const currentSemesterObj = semesters.semesters.find(s => s.name === currentSemester);
-                    const now = new Date("2025-02-01");
+                    const currentSemesterObj = semesters.semesters.find(s => s.name === initialSemester);
+                    const now = new Date();
                     return (userCreatedAt ? new Date(semester.endDate) >= userCreatedAt : true) 
-                      && semester.name !== currentSemester 
+                      && semester.name !== initialSemester 
                       && currentSemesterObj 
                       && new Date(semester.startDate) <= now;
                   })

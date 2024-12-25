@@ -1,17 +1,22 @@
 "use server"
 
 import { coursesSchema } from "@/schemas/courses";
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { z } from "zod";
 import { addCourse as addCourseDb } from "@/server/db/courses";
 import { redirect } from "next/navigation";
 import { uAlbertaCourses } from "@/data/uAlbertaCourses";
-import { useSemesterStore } from "@/store/semesterStore";
 
 export async function addCourse(unsafeData: z.infer<typeof coursesSchema>): Promise<{ error: boolean, message: string } | undefined> {
     const { userId } = await auth()
+    if (!userId) {
+        return { error: true, message: "Authentication required" }
+    }
     const { success, data } = coursesSchema.safeParse(unsafeData)
-    const currentSemester = useSemesterStore.getState().currentSemester;
+    const client = await clerkClient()
+    const user = await client.users.getUser(userId);
+    const currentSemester = (user?.publicMetadata?.currentSemester as string) || "Unknown Semester";
+    //const currentSemester = useSemesterStore.getState().currentSemester;
     const formattedSemester = currentSemester.replace(/\s+/g, '');
     
     if (!success || !userId || data.c_num === null) {
