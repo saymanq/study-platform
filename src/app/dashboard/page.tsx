@@ -4,10 +4,13 @@ import { getCourses } from "@/server/db/courses";
 import { NoProducts } from "./_components/NoProducts";
 import { useSemesterStore } from "@/store/semesterStore";
 
+
+
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function DashboardPage() {
+    
     const { userId, redirectToSignIn } = await auth()
     const currentSemester = useSemesterStore.getState().currentSemester;
 
