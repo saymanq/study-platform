@@ -10,11 +10,8 @@ import { storeSemester } from "@/server/actions/semester";
 
 
 export function Semester({ initialSemester }: { initialSemester: string }) {
-    //const currentSemester = getCurrentSemester();
     const router = useRouter();
-    //const { currentSemester, setCurrentSemester } = useSemesterStore();
     const [userCreatedAt, setUserCreatedAt] = useState<Date | null>(null);
-    //const userCreatedAt = new Date("2024-07-01");
     const [ mounted, setMounted ] = useState(false);
     const [value, setValue] = useState(initialSemester);
     
@@ -29,12 +26,8 @@ export function Semester({ initialSemester }: { initialSemester: string }) {
     }, []);
 
     const handleSemesterChange = async (value: string) => {
-      //setCurrentSemester(value);
       setValue(value);
       await storeSemester(value);
-      //await Promise.resolve();
-      //router.push('/dashboard');
-      //console.log(currentSemester);
       router.refresh();
     };
 

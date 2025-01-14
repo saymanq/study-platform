@@ -1,5 +1,5 @@
 import { subscriptionTiers, TierNames } from "@/data/subscriptionTiers";
-import { pgTable, text, uuid, integer, timestamp, index, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, integer, timestamp, index, pgEnum, json, uniqueIndex } from "drizzle-orm/pg-core";
 
 const createdAt = timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 const updatedAt = timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date())
@@ -59,3 +59,45 @@ export const CourseFiles = pgTable("course_files", {
     clerkUserIdIndex: index("course_files.clerk_user_id_index").on(table.clerkUserID),
     courseIdIndex: index("course_files.course_id_index").on(table.courseId),
 }))
+
+
+export const CourseSummary = pgTable("course_summary", {
+    id: uuid("id").primaryKey().defaultRandom(),
+    clerkUserID: text("clerk_user_id").notNull(),
+    courseId: uuid("course_id").notNull().references(() => Courses.id),
+    semester: text("semester").notNull(),
+    summary: json("summary").$type<{ title: string; content: string }[]>().notNull(),
+    titles: json("titles").$type<string[]>().notNull(),
+    mdsummary: text("mdsummary").notNull(),
+    createdAt,
+    updatedAt,
+}, table => ({
+    clerkUserIdIndex: index("course_summary.clerk_user_id_index").on(table.clerkUserID),
+    courseIdIndex: index("course_summary.course_id_index").on(table.courseId),
+}))
+
+export const CourseFilesSummary = pgTable("course_files_summary", {
+    id: uuid("id").primaryKey().defaultRandom(),
+    clerkUserID: text("clerk_user_id").notNull(),
+    courseId: uuid("course_id").notNull().references(() => Courses.id),
+    fileR2Name: text("file_r2_name").notNull(),
+    semester: text("semester").notNull(),
+    fileSummary: json("file_summary").$type<{ text: string }[]>().notNull(),
+    createdAt,
+    updatedAt
+}, table => ({
+    clerkUserIdIndex: index("course_files_summary.clerk_user_id_index").on(table.clerkUserID),
+    courseIdIndex: index("course_files_summary.course_id_index").on(table.courseId),
+    uniqueConstraint: uniqueIndex("course_files_summary.unique_file").on(
+        table.clerkUserID,
+        table.fileR2Name,
+        table.semester
+    )
+}))
+
+export const VectorData = pgTable("vector_data", {
+    id: text("vector_id").primaryKey().notNull(),
+    text: text("vector_text").notNull(),
+    createdAt,
+    updatedAt,
+})

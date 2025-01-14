@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import { useState, useCallback } from "react"
 import { toast } from "@/hooks/use-toast"
 import { dataProcessing } from "@/server/actions/dataProcessing"
+import { useRouter } from "next/navigation"
+
 
 type UploadFileProps = {
     courseId: string
@@ -12,6 +14,7 @@ type UploadFileProps = {
 export function UploadFile({ courseId }: UploadFileProps) {
     const [isDragging, setIsDragging] = useState(false)
     const [isUploading, setIsUploading] = useState(false)
+    const router = useRouter()
 
     const handleDragOver = useCallback((e: React.DragEvent) => {
         e.preventDefault()
@@ -23,19 +26,7 @@ export function UploadFile({ courseId }: UploadFileProps) {
         setIsDragging(false)
     }, [])
 
-    const handleDrop = useCallback((e: React.DragEvent) => {
-        e.preventDefault()
-        setIsDragging(false)
-        const files = Array.from(e.dataTransfer.files)
-        handleFiles(files)
-    }, [])
-
-    const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files ? Array.from(e.target.files) : []
-        handleFiles(files)
-    }
-
-    const handleFiles = async (files: File[]) => {
+    const handleFiles = useCallback(async (files: File[]) => {
         if (files.length === 0) return
 
         const file = files[0] // Handle first file for now
@@ -55,6 +46,7 @@ export function UploadFile({ courseId }: UploadFileProps) {
                 title: "Success",
                 description: "File uploaded successfully"
             })
+            router.refresh();
         } catch (error) {
             console.error("Upload error:", error)
             toast({
@@ -65,7 +57,19 @@ export function UploadFile({ courseId }: UploadFileProps) {
         } finally {
             setIsUploading(false)
         }
-    }
+    }, [courseId, router])
+
+    const handleDrop = useCallback((e: React.DragEvent) => {
+        e.preventDefault()
+        setIsDragging(false)
+        const files = Array.from(e.dataTransfer.files)
+        handleFiles(files)
+    }, [handleFiles])
+
+    const handleFileInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files ? Array.from(e.target.files) : []
+        handleFiles(files)
+    }, [handleFiles])
 
     
     return (

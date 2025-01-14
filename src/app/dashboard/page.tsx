@@ -13,7 +13,7 @@ export default async function DashboardPage() {
 
     const client = await clerkClient()
     const user = await client.users.getUser(userId);
-    const currentSemester = (user?.publicMetadata?.currentSemester as string) || "Unknown Semester";
+    const currentSemester = (user?.publicMetadata?.currentSemester as string) || "UnknownSemester";
 
     const courses = await getCourses(userId, { limit: 6, semester: currentSemester });
 

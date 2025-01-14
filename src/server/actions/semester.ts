@@ -3,14 +3,6 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";  
 import { revalidatePath } from "next/cache";
 
-export async function updateSemester(semester: string) {
-    revalidatePath('/', 'layout');
-    revalidatePath('/dashboard', 'layout');
-    console.log("revalidated: ", semester);
-    return { success: true };
-}
-
-
 export async function storeSemester(semester: string) {
     const { userId } = await auth();
     if (!userId) return;

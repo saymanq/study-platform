@@ -1,0 +1,1 @@
+ALTER TABLE "course_summary" ADD COLUMN "titles" json NOT NULL;
