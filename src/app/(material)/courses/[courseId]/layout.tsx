@@ -4,7 +4,7 @@ export default function CourseHomeLayout({ children }: { children: React.ReactNo
     return (
         <div className="bg-accent/5 min-h-screen">
             <NavBar />
-            <div className="container py-6">
+            <div className="max-w-full mx-auto py-6 px-4">
                 {children}
             </div>
         </div>

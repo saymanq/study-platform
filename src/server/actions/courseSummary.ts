@@ -7,5 +7,8 @@ export async function getCourseSummary(props: {
 }) {
     
     const summary = await getCSummary(props.courseId, props.userId, props.semester);
-    return summary?.[0]?.summary;
+    return {
+        summary: summary?.[0]?.summary,
+        overallSummary: summary?.[0]?.overallSummary
+    };
 }

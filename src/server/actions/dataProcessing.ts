@@ -217,7 +217,8 @@ export async function dataProcessing(file: File, courseId: string) {
             }
             console.log('courseSummary:', courseSummary);
 
-            const cSummaryText = await getCourseSummary(courseSummary);
+            //const cSummaryText = await getCourseSummary(courseSummary);
+            const cSummaryText = data.summary;
             console.log('cSummaryText:', cSummaryText);
 
             try {

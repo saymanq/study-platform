@@ -6,6 +6,7 @@ import { z } from "zod";
 import { addCourse as addCourseDb } from "@/server/db/courses";
 import { redirect } from "next/navigation";
 import { uAlbertaCourses } from "@/data/uAlbertaCourses";
+import { getCurrentSemester } from "@/lib/utils";
 
 export async function addCourse(unsafeData: z.infer<typeof coursesSchema>): Promise<{ error: boolean, message: string } | undefined> {
     const { userId } = await auth()
@@ -15,9 +16,18 @@ export async function addCourse(unsafeData: z.infer<typeof coursesSchema>): Prom
     const { success, data } = coursesSchema.safeParse(unsafeData)
     const client = await clerkClient()
     const user = await client.users.getUser(userId);
-    const currentSemester = (user?.publicMetadata?.currentSemester as string) || "Unknown Semester";
+    const currentSemester = (user?.publicMetadata?.currentSemester as string) || getCurrentSemester();
     //const currentSemester = useSemesterStore.getState().currentSemester;
     const formattedSemester = currentSemester.replace(/\s+/g, '');
+
+    // If this is the user's first course, also set their semester metadata
+    if (!user?.publicMetadata?.currentSemester) {
+        await client.users.updateUser(userId, {
+            publicMetadata: {
+                currentSemester: currentSemester
+            }
+        });
+    }
     
     if (!success || !userId || data.c_num === null) {
         return { error: true, message:"There was a problem creating the course"}

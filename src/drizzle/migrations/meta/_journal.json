@@ -78,6 +78,27 @@
       "when": 1736857993097,
       "tag": "0010_pink_miracleman",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1737026638484,
+      "tag": "0011_futuristic_azazel",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1737033502656,
+      "tag": "0012_broad_ben_parker",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1737033528651,
+      "tag": "0013_mysterious_silvermane",
+      "breakpoints": true
     }
   ]
 }

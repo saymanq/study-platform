@@ -68,7 +68,7 @@ export const CourseSummary = pgTable("course_summary", {
     semester: text("semester").notNull(),
     summary: json("summary").$type<{ title: string; content: string }[]>().notNull(),
     titles: json("titles").$type<string[]>().notNull(),
-    mdsummary: text("mdsummary").notNull(),
+    overallsummary: text("overall_summary").notNull(),
     createdAt,
     updatedAt,
 }, table => ({
@@ -83,6 +83,7 @@ export const CourseFilesSummary = pgTable("course_files_summary", {
     fileR2Name: text("file_r2_name").notNull(),
     semester: text("semester").notNull(),
     fileSummary: json("file_summary").$type<{ text: string }[]>().notNull(),
+    overallSummary: text("overall_summary").notNull(),
     createdAt,
     updatedAt
 }, table => ({
