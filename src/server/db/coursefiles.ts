@@ -1,5 +1,5 @@
 import { db } from "@/drizzle/db";
-import { CourseFiles } from "@/drizzle/schema";
+import { CourseFiles, CourseFilesSummary } from "@/drizzle/schema";
 import { eq, and, sql } from "drizzle-orm";
 
 export function getFileCount(userId: string, courseID: string, semesterr: string) {
@@ -34,4 +34,14 @@ export function getFileById(fileId: string, userId: string) {
             )
         ),
     });
+}
+
+export function getFData(courseId: string, userId: string, semester: string) {
+    return db.select({ fileSummary: CourseFilesSummary.fileSummary, overallFileSummary: CourseFilesSummary.overallSummary })
+        .from(CourseFilesSummary)
+        .where(and(
+            eq(CourseFilesSummary.courseId, courseId),
+            eq(CourseFilesSummary.clerkUserID, userId),
+            eq(CourseFilesSummary.semester, semester)
+        )).execute();
 }
