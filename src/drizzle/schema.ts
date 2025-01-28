@@ -92,7 +92,8 @@ export const CourseFilesSummary = pgTable("course_files_summary", {
     uniqueConstraint: uniqueIndex("course_files_summary.unique_file").on(
         table.clerkUserID,
         table.fileR2Name,
-        table.semester
+        table.semester,
+        table.courseId,
     )
 }))
 

@@ -71,8 +71,13 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
-  		}
+  			},
+			newele: '#7D5BA6',
+			newbg: '#0C0C0C',
+  		},
+		gridTemplateColumns: {
+		'20': 'repeat(20, minmax(0, 1fr))',
+		},
   	}
   },
   plugins: [tailwindcssAnimate, typography],

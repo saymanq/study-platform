@@ -1,0 +1,2 @@
+DROP INDEX IF EXISTS "course_files_summary.unique_file";--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "course_files_summary.unique_file" ON "course_files_summary" USING btree ("clerk_user_id","file_r2_name","semester","course_id");

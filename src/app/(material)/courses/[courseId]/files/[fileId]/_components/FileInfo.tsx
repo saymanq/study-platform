@@ -20,7 +20,7 @@ export function FileInfo({ fileData, currentPage }: {
     
     return (
         <div>
-            <Tabs defaultValue="overview" className="w-full">
+            <Tabs defaultValue="overview" className="w-full text-white">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="overview">Overview</TabsTrigger>
                     <TabsTrigger value="explanation">Explanation</TabsTrigger>

@@ -113,6 +113,8 @@ const s3Client = new S3Client({
       accessKeyId: env.CLOUDFLARE_ACCESS_KEY_ID,
       secretAccessKey: env.CLOUDFLARE_SECRET_ACCESS_KEY,
     },
+    requestChecksumCalculation: false,
+    responseChecksumValidation: false
   });
 
 async function addFileToR2(file: File, filename: string) {
@@ -134,6 +136,7 @@ async function addFileToR2(file: File, filename: string) {
         },
         queueSize: 4,
         leavePartsOnError: false,
+        computeChecksums: false,
         });
 
         await parallelUploads.done()

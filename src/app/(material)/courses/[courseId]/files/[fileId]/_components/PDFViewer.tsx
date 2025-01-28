@@ -1,5 +1,6 @@
 'use client'
 
+
 import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -49,7 +50,7 @@ export function PDFViewer({ url, onPageChange }: PDFViewerProps) {
                     />
                 </Document>
             </div>
-            <div className="flex gap-2 items-center mt-4 p-3 bg-green-400">
+            <div className="flex gap-2 items-center mt-4 p-3">
                 <button
                     onClick={() => handlePageChange(Math.max(1, pageNumber - 1))}
                     disabled={pageNumber <= 1}
@@ -67,7 +68,7 @@ export function PDFViewer({ url, onPageChange }: PDFViewerProps) {
                 >
                     Next
                 </button>
-            </div>
+            </div>   
         </div>
     );
 }

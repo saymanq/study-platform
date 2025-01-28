@@ -17,7 +17,7 @@ export function getCourseFiles( courseID: string, userId: string, semesterr: str
         where: (({ clerkUserID, courseId, semester }, { eq, and }) =>
             and(
                 eq(clerkUserID, userId),
-                eq(courseId, courseId),
+                eq(courseId, courseID),
                 eq(semester, semesterr)
             )
         ),
