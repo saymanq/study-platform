@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 
 export function FileInfo({ fileData, currentPage }: { 
     fileData: { 
-        fileSummary: Array<{ text: { response: string } }>;
+        fileSummary: Array<{ text: string | { response: string } }>;
         overallFileSummary: string;
     };
     currentPage: number;
@@ -16,7 +16,11 @@ export function FileInfo({ fileData, currentPage }: {
         return <div>No explanation available</div>
     }
 
-    const currentExplanation = fileData.fileSummary[currentPage - 1]?.text.response || "No explanation available for this page";
+    //const currentExplanation = fileData.fileSummary[currentPage - 1]?.text.response || "No explanation available for this page";
+    // In FileInfo.tsx
+    const item = fileData.fileSummary[currentPage - 1];
+    const textValue = typeof item?.text === "string" ? item?.text : item?.text?.response;
+    const currentExplanation = textValue || "No explanation available";
     
     return (
         <div>

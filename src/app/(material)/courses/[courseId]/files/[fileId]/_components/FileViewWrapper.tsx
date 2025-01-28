@@ -6,7 +6,7 @@ import { FileInfo } from "./FileInfo";
 
 
 interface FileData {
-    fileSummary: Array<{ text: { response: string } }>;
+    fileSummary: Array<{ text: string | { response: string } }>;
     overallFileSummary: string;
 }
 
