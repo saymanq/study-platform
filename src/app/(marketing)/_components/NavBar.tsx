@@ -8,13 +8,13 @@ export function NavBar() {
             <Link href="/" className="mr-auto">
                 <BrandLogo />
             </Link>
-            <SignedIn>
-                {/* <Link href="/dashboard">Dashboard</Link> */}
+            {/* <SignedIn>
+                <Link href="/dashboard">Dashboard</Link>
                 <SignOutButton>Sign Out</SignOutButton>
             </SignedIn>
             <SignedOut>
                 <SignInButton>Login</SignInButton>
-            </SignedOut>
+            </SignedOut> */}
         </nav>
     </header>
 }
