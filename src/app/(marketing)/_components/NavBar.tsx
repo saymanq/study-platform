@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { ReactNode } from "react";
+import { NotificationButton } from './NotificationButton';
 
 export function NavBar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -62,17 +63,12 @@ export function NavBar() {
                             </SignOutButton>
                         </SignedIn>
                         <SignedOut>
-                            <SignInButton>
-                                <button className="px-4 py-2 rounded-lg text-white font-medium hover:bg-slate-800 transition-colors">
-                                    Log In
-                                </button>
-                            </SignInButton>
-                            <Link
-                                href="/auth/sign-up"
-                                className="px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium transition-all shadow-lg shadow-violet-900/20"
-                            >
+                            <NotificationButton className="px-4 py-2 rounded-lg text-white font-medium hover:bg-slate-800 transition-colors">
+                                Log In
+                            </NotificationButton>
+                            <NotificationButton className="px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium transition-all shadow-lg shadow-violet-900/20">
                                 Sign Up
-                            </Link>
+                            </NotificationButton>
                         </SignedOut>
                     </div>
 
@@ -114,18 +110,12 @@ export function NavBar() {
                             </SignOutButton>
                         </SignedIn>
                         <SignedOut>
-                            <SignInButton>
-                                <button className="block w-full py-2.5 text-center rounded-lg border border-slate-700 text-white font-medium hover:bg-slate-800 transition-colors">
-                                    Log In
-                                </button>
-                            </SignInButton>
-                            <Link
-                                href="/auth/sign-up"
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="block w-full py-2.5 text-center rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium transition-all"
-                            >
+                            <NotificationButton className="block w-full py-2.5 text-center rounded-lg border border-slate-700 text-white font-medium hover:bg-slate-800 transition-colors">
+                                Log In
+                            </NotificationButton>
+                            <NotificationButton className="block w-full py-2.5 text-center rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium transition-all">
                                 Sign Up
-                            </Link>
+                            </NotificationButton>
                         </SignedOut>
                     </div>
                 </div>
