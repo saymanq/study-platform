@@ -1,106 +1,59 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useState } from "react";
-import { coursesSchema } from "@/schemas/courses";
-import { addCourse } from "@/server/actions/courses";
-import { toast } from "@/hooks/use-toast";
-
-
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 export function NoProducts() {
-    const [open, setOpen] = useState(false);
-    const form = useForm<z.infer<typeof coursesSchema>>({
-        resolver: zodResolver(coursesSchema),
-        defaultValues: {
-            c_abbrev: "",
-            c_num: null,
-        }
-    })
+    return (
+        <div className="mt-8 flex flex-col items-center justify-center text-center">
+            <div className="bg-slate-900/80 rounded-xl border border-violet-500/30 
+                  shadow-lg shadow-violet-500/10 backdrop-blur-sm overflow-hidden
+                  max-w-md w-full p-8">
+                <div className="p-1 bg-gradient-to-r from-violet-800 to-indigo-700 rounded-lg mb-6">
+                    <h3 className="text-white font-medium text-center py-1">Get Started</h3>
+                </div>
 
-    async function onSubmit(values: z.infer<typeof coursesSchema>) {
-        const transformedValues = {
-            ...values,
-            c_abbrev: values.c_abbrev.toUpperCase()
-          };
-        const data = await addCourse(transformedValues);
-        setOpen(false);
-        if (data?.message) {
-            toast({
-                title: data.error ? "Error" : "Success",
-                description: data.message,
-                variant: data.error ? "destructive": "default"
-            })
-        }
-    }
-    
-    return  (
-        <div className="mt-32 text-center text-balance">
-            <h1 className="text-4xl font-semibold mb-2">You have no courses</h1>
-            <p className="mb-4">
-                Get started with Cognify by adding a course
-            </p>
-            <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
-                    <Button size="lg">Add Course</Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>Add New Course</DialogTitle>
-                        <DialogDescription>
-                            Create a new course here. Click save when you're done.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <Form {...form}>    
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
-                            <FormField
-                                control={form.control}
-                                name="c_abbrev"
-                                render={({ field }) => (
-                                    <FormItem className="grid grid-cols-4 items-center gap-4">
-                                        <FormLabel htmlFor="c_abbrev" className="text-right">Course Name</FormLabel>
-                                        <div className="col-span-3">
-                                            <FormControl>
-                                                <Input {...field} id="c_abbrev" placeholder="Example: CMPUT, MATH"/>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </div>
-                                    </FormItem>
-                                )}
-                            />
-                            <Controller
-                                control={form.control}
-                                name="c_num"
-                                render={({ field: { value, onChange }, fieldState: { error } }) => (
-                                    <FormItem className="grid grid-cols-4 items-center gap-4">
-                                        <FormLabel htmlFor="c_num" className="text-right">Course Number</FormLabel>
-                                        <div className="col-span-3">
-                                            <FormControl>
-                                                <Input 
-                                                    type="number"
-                                                    id="c_num"
-                                                    value={value ?? ""}
-                                                    onChange={(e) => onChange(e.target.value ? Number(e.target.value) : null)}
-                                                    placeholder="Example: 101, 102"
-                                                />
-                                            </FormControl>
-                                            {error && <FormMessage>{error.message}</FormMessage>}
-                                        </div>
-                                    </FormItem>
-                                )}
-                            />
-                            <div className="flex justify-end">
-                                <Button disabled={form.formState.isSubmitting}  type="submit">Save Course</Button>
-                            </div>
-                        </form>
-                    </Form>
-                </DialogContent>
-            </Dialog>
+                <div className="flex flex-col items-center">
+                    <div className="flex h-24 w-24 items-center justify-center rounded-full 
+                          bg-gradient-to-br from-violet-800/50 to-indigo-600/30 mb-6
+                          shadow-inner shadow-violet-500/20 border border-violet-500/20">
+                        <BookIcon className="h-12 w-12 text-violet-100" />
+                    </div>
+
+                    <h2 className="text-2xl font-semibold text-white mb-3">No courses yet</h2>
+
+                    <p className="text-violet-200/70 max-w-sm mb-8">
+                        You haven't added any courses for this semester. Add your first course to get started.
+                    </p>
+
+                    <Button className="w-full bg-gradient-to-r from-violet-700 to-indigo-600 
+                          text-white hover:from-violet-600 hover:to-indigo-500 
+                          border border-violet-500/30 shadow-md shadow-violet-800/20
+                          transition-all duration-300 py-6">
+                        <PlusIcon className="mr-2 h-5 w-5" />
+                        Add Your First Course
+                    </Button>
+                </div>
+            </div>
         </div>
-    )
+    );
+}
+
+function BookIcon(props: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg
+            {...props}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        </svg>
+    );
 }

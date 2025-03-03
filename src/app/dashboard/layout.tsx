@@ -12,11 +12,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
         const user = await client.users.getUser(userId);
         currentSemester = (user?.publicMetadata?.currentSemester as string) || currentSemester;
     }
-    
+
     return (
-        <div className="bg-accent/5 min-h-screen">
-            <NavBar initialSemester={currentSemester}/>
-            <div className="container py-6">
+        <div className="bg-gradient-to-br from-slate-900 to-slate-950 min-h-screen">
+            <NavBar initialSemester={currentSemester} />
+            <div>
                 {children}
             </div>
         </div>

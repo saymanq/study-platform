@@ -5,13 +5,15 @@ import Link from "next/link";
 
 export function NavBar({ initialSemester }: { initialSemester: string }) {
     return (
-        <header className="flex py-4 shadow bg-background">
-            <nav className="flex items-center gap-10 container">
-                <Link href="/dashboard" className="mr-auto">
+        <header className="border-b border-violet-500/20 shadow-md shadow-violet-500/5 bg-slate-900/95 backdrop-blur-sm">
+            <nav className="flex items-center gap-10 container py-4">
+                <Link href="/dashboard" className="mr-auto text-white">
                     <BrandLogo />
                 </Link>
-                <Link href="/subscription">Subscription</Link>
-                <Semester initialSemester={initialSemester}/>
+                <Link href="/subscription" className="text-violet-100 hover:text-white transition">Subscription</Link>
+                <div className="text-white">
+                    <Semester initialSemester={initialSemester} />
+                </div>
                 <UserButton />
             </nav>
         </header>
